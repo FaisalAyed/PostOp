@@ -1,0 +1,611 @@
+/* =========================================================
+   ROOT VARIABLES (THEME COLORS)
+   ========================================================= */
+:root {
+  --green-dark: #0d2a1f;   /* Lighter base background */
+  --green-deep: #144734;   /* Softer secondary depth */
+  --green-mid:  #1e6b4f;   /* Brighter mid accent */
+  --green-glow: #33ffad;   /* Softer but brighter glow */
+}
+
+
+
+/* =========================================================
+   RESET & BASE SETTINGS
+   ========================================================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;            /* Required for FiveM NUI */
+  font-family: Inter, system-ui, sans-serif;
+}
+
+
+/* =========================================================
+   UI ROOT (FULLSCREEN WRAPPER)
+   - Centers UI
+   - Does NOT block other UI layers
+   ========================================================= */
+#ui-root {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;        /* Allow clicks only on UI */
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   - Responsive on FHD / 2K / 4K
+   - Glass / depth background
+   ========================================================= */
+.container {
+  position: relative; /* 🔴 هذا أهم سطر */
+  overflow: hidden;   /* عشان الطبقات ما تطلع برا */
+
+  pointer-events: auto;
+
+  width: clamp(1100px, 70vw, 1600px);
+  height: clamp(650px, 70vh, 900px);
+  display: flex;
+  border-radius: 25px;
+
+  background-image:
+    radial-gradient(
+      1200px circle at 18% 8%,
+      rgba(51, 255, 173, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px circle at 82% 92%,
+      rgba(51, 255, 173, 0.1),
+      transparent 65%
+    ),
+    linear-gradient(
+      160deg,
+      var(--green-dark) 0%,
+      var(--green-deep) 45%,
+      var(--green-dark) 100%
+    );
+
+  color: #eafff3;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(51, 255, 173, 0.06) 0px,
+      rgba(51, 255, 173, 0.06) 1px,
+      transparent 1px,
+      transparent 44px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(51, 255, 173, 0.045) 0px,
+      rgba(51, 255, 173, 0.045) 1px,
+      transparent 1px,
+      transparent 44px
+    );
+
+  opacity: 0.45;
+}
+
+
+/* =========================================================
+   LAYOUT SECTIONS
+   ========================================================= */
+
+.center,
+.right,
+.left  {
+  height: 100%;
+  border: 2px solid rgb(255, 38, 0); /* DEBUG ONLY – remove later */
+}
+
+
+/* =========================================================
+   LEFT SECTION (ICON NAV BAR)
+   ========================================================= */
+.left {
+  flex: 0 0 7%;
+  min-width: 80px;
+
+  display: flex;
+  align-items: center;     /* يمركز left-section عموديًا */
+  justify-content: center;
+
+}
+
+/* Top icon at the very top */
+.left-top-icon {
+  height: 20%;                 /* الجزء العلوي */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-top-icon i {
+  font-size: 26px;
+  color: var(--green-glow);
+  opacity: 0.9;
+  color: rgb(255, 255, 255);
+}
+.left-section {
+  height: 90%;
+  width: 80%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Darker layered background */
+  background:
+    radial-gradient(
+      600px circle at 50% 0%,
+      rgba(26, 255, 140, 0.08),
+      transparent 65%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(7, 26, 18, 0.92),
+      rgba(5, 18, 13, 0.92)
+    );
+
+  border-radius: 22px;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(26, 255, 140, 0.06),
+    0 10px 26px rgba(0, 0, 0, 0.6);
+}
+
+
+
+/* =========================================================
+   CENTER SECTION (MAIN CONTENT)
+   ========================================================= */
+.center {
+  flex: 0 0 70%;
+  height: 100%;
+
+  display: flex;
+  align-items: flex-start;      /* توسيط عمودي */
+  justify-content: flex-end;/* أقرب لليمين */
+
+  padding-right: 12px;      /* مسافة تنفّس من اليمين */
+}
+
+.announcment {
+  width: 100%;
+  height: 55%;
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* ✅ توسيط حقيقي */
+
+  padding: 0;
+}
+
+
+
+
+.announcment-card {
+  flex: 0 0 50%;      /* شوي أصغر */
+  height: 80%;
+
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  border: 2px rgb(67, 23, 168) solid;
+}
+
+
+.card-bg {
+  position: absolute;
+  inset: 0;
+  background: url("../mission-1.jpg") center / cover no-repeat;
+  filter: blur(2px) brightness(0.75);
+  transform: scale(1); /* حتى ما يبان قصّ */
+}
+.card-content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 28px;
+}
+
+.card-info {
+  max-width: 55%;
+  color: #ffffff;
+}
+
+.card-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+}
+
+.card-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+
+.card-desc {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+.card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.card-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.card-btn.primary {
+  background: #1aff8c;
+  color: #000;
+}
+.card-character {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.card-character img {
+  height: 110%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.announcement-track {
+  display: flex;
+  align-items: flex-end;
+
+  height: 100%;
+  width: 100%;
+
+  gap: 24px;
+
+  cursor: grab;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+
+.announcement-track:active {
+  cursor: grabbing;
+}
+
+
+.carousel-dots {
+  position: absolute;
+  top: 80px;
+  right: 16px;
+
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+
+.carousel-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.3);
+  transition: all 0.25s ease;
+}
+
+.carousel-dots span.active {
+  width: 18px;
+  border-radius: 10px;
+  background: #1aff8c;
+}
+
+
+
+/* =========================================================
+   RIGHT SECTION (DETAIL / INFO PANEL)
+   ========================================================= */
+.right {
+  flex: 0 0 23%;
+  min-width: 240px;
+   padding: 16px;
+}
+
+
+/* =========================================================
+   SIDE NAVIGATION (ICON ONLY)
+   - Same width as left section
+   - 80% height
+   ========================================================= */
+.side-nav {
+  width: 100%;
+  height: 80%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+
+  gap: 30px;                 /* Controls icon spacing */
+  padding: 8px 0;
+}
+
+
+/* =========================================================
+   NAV ICON BUTTON
+   ========================================================= */
+.nav-item {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(26, 255, 140, 0.08);
+  border-radius: 14px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color:rgb(255, 255, 255)
+}
+
+
+/* =========================================================
+   HOVER EFFECT
+   ========================================================= */
+.nav-item:hover {
+  background: rgba(26, 255, 140, 0.12);
+
+  box-shadow:
+    0 0 0 1px rgba(26, 255, 140, 0.35),
+    0 0 18px rgba(26, 255, 140, 0.25);
+
+  transform: translateY(-2px);
+}
+
+.cloeMenu{
+    border: 2px var( --green-mid) dashed;
+    width: 40px;
+    height: 40px;
+    border-radius: 7px;
+  margin-top: auto;   /* 👈 ينزل لأسفل */
+  margin-bottom: 20px;/* 👈 ويرتفع شوي */
+    display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cloeMenu i {
+    font-size: 18px;
+}
+.cloeMenu:hover {
+  background: rgba(26, 255, 140, 0.12);
+
+  box-shadow:
+    0 0 0 1px rgba(26, 255, 140, 0.35),
+    0 0 18px rgba(26, 255, 140, 0.25);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CLOSE ANIMATION
+   ========================================================= */
+.ui-closing {
+  animation: uiClose 0.45s ease forwards;
+}
+
+@keyframes uiClose {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.94) translateY(20px);
+    filter: blur(6px);
+  }
+}
+
+/* =========================================================
+   RIGHT STATIC TOP BAR
+   - Contains: Money / Messages / Level
+   ========================================================= */
+.right-static {
+  width: 100%;
+  height: 64px;                 /* ⬆️ أكبر */
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 30px;                    /* ⬆️ مسافة أوسع */
+  padding: 0 22px;
+
+  border-radius: 14px;
+}
+
+
+/* Base stat item */
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;            /* 🔒 لا تتحرك */
+
+  color: #ffffff;
+  font-size: 16px;              /* ⬆️ أكبر */
+  font-weight: 600;
+}
+
+.stat-item i {
+  font-size: 18px;              /* ⬆️ أيقونات أوضح */
+  opacity: 0.9;
+}
+
+
+.stat-value {
+  opacity: 0.95;
+}
+
+/* Message container */
+.stat-item.message {
+  position: relative;
+}
+
+/* Message icon */
+.stat-item.message i {
+  color: #ffffff;
+}
+
+/* Red notification badge */
+.message-badge {
+      position: absolute;   /* 👈 هذا سبب المشكلة */
+
+  top: -7px;
+  right: -8px;
+
+  width: 12px;                  /* ⬆️ */
+  height: 12px;
+
+  background: #ff3b3b;
+  border-radius: 50%;
+
+  box-shadow: 0 0 8px rgba(255, 59, 59, 0.85);
+}
+
+
+/* Level container */
+.level-progress {
+  position: relative;
+  width: 58px;                  /* ⬆️ أكبر */
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+/* Level circular progress */
+.level-circle {
+  --size: 62px;
+  --thickness: 5px;
+
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* الدائرة نفسها */
+  background:
+    conic-gradient(
+      #ffffff var(--progress),
+      rgba(255, 255, 255, 0.18) 0
+    );
+
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.12);
+}
+
+/* inner cut (creates ring) */
+.level-circle::before {
+  content: '';
+  position: absolute;
+  inset: var(--thickness);
+  border-radius: 50%;
+  background: rgba(13, 42, 31, 0.95);
+}
+
+/* Level number */
+.level-circle .lvl-text {
+  position: relative;
+  z-index: 1;
+
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.username {
+  max-width: 120px;          /* حد أقصى ثابت */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+
+  margin-left: 6px;          /* مسافة صغيرة جدًا فقط */
+  flex-shrink: 1;            /* يسمح له بالانكماش */
+}
+
+
+
+.content-name {
+  font-size: 48px;
+  text-align: center;
+}
